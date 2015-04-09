@@ -29,7 +29,8 @@ class vRecog
         double threshold2;
         double threshold3;
 
-        Mat filter(Mat, Mat &);
+        Mat filter(Mat, Mat&, bool);//added a bool for color histogram equalization
+        //Mat filter(Mat, Mat &);
         vector <vector <Point> > genSmallBlobRemover(Mat&);
         void rectangleIdent(vector <vector<Point> > , vector <Point2f>& , vector<double>&, Rect&);
         void circIdent(vector <vector< Point> >,vector <Point2f>&,vector <double>&,vector<int>&, Rect&);
