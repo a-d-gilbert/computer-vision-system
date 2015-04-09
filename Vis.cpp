@@ -23,9 +23,34 @@ Mat vRecog::filter(Mat image, Mat &image4hist)//finished
 {
 
     //Mat hsv,eroded,threshed,dilated,gaus,edges;
-
+    /*
+    //http://stackoverflow.com/questions/15007304/histogram-equalization-not-working-on-color-image-opencv
+    Mat hsv,eroded,threshed,dilated,gaus,edges,ycrcbImage;
+    
+    if(image.channels()>=3)
+    {
+        cvtColor(image,ycrcbImage,CV_BGR2YCrCb);
+        cvtColor(image4hist,image4hist,CV_BGR2YCrCb);
+        vector<Mat> ycrcbChannels;
+        split(ycrcbImage,ycrcbChannels);
+        equalizeHist(ycrcbChannels[0],ycrcbChannels[0]);
+        merge(ycrcbChannels[0],image4hist);
+        cvtColor(image4hist,image4hist,CV_YCrCb2BGR);
+        cvtColor(image4hist, hsv, CV_BGR2HSV);//conversion to hsv
+        inRange(hsv, Scalar(0,0,210), Scalar(100,100,255), threshed); //thresholding image
+    }
+    else{
+        cvtColor(image, hsv, CV_BGR2HSV);//conversion to hsv
+        inRange(hsv, Scalar(0,150,150), Scalar(95,255,255), threshed); //thresholding image
+    }
+    //http://stackoverflow.com/questions/15007304/histogram-equalization-not-working-on-color-image-opencv
+    */
+    
+    //comment theses lines out if you uncomment the above chunk 
     cvtColor(image, hsv, CV_BGR2HSV);//conversion to hsv
     inRange(hsv, Scalar(0,150,150), Scalar(95,255,255), threshed); //thresholding image
+    //comment theses lines out if you uncomment
+    
     //inRange(hsv, Scalar(0,0,210), Scalar(100,100,255), threshed); //thresholding image
     erode(threshed, eroded, getStructuringElement(0, Size(3,3)));//eroding and dilating image to
     dilate(eroded,dilated , getStructuringElement(0, Size(3,3)));//smooth image
