@@ -19,15 +19,13 @@ using namespace std;
 //*********************************************************************************************************************
 //*********************************************************************************************************************
 
-Mat vRecog::filter(Mat image, Mat &image4hist)//finished
+Mat vRecog::filter(Mat image, Mat &image4hist, bool colorHist)//finished
 {
 
-    //Mat hsv,eroded,threshed,dilated,gaus,edges;
-    /*
     //http://stackoverflow.com/questions/15007304/histogram-equalization-not-working-on-color-image-opencv
     Mat hsv,eroded,threshed,dilated,gaus,edges,ycrcbImage;
     
-    if(image.channels()>=3)
+    if(colorHist)
     {
         cvtColor(image,ycrcbImage,CV_BGR2YCrCb);
         cvtColor(image4hist,image4hist,CV_BGR2YCrCb);
@@ -36,6 +34,7 @@ Mat vRecog::filter(Mat image, Mat &image4hist)//finished
         equalizeHist(ycrcbChannels[0],ycrcbChannels[0]);
         merge(ycrcbChannels[0],image4hist);
         cvtColor(image4hist,image4hist,CV_YCrCb2BGR);
+        //http://stackoverflow.com/questions/15007304/histogram-equalization-not-working-on-color-image-opencv
         cvtColor(image4hist, hsv, CV_BGR2HSV);//conversion to hsv
         inRange(hsv, Scalar(0,0,210), Scalar(100,100,255), threshed); //thresholding image
     }
@@ -43,15 +42,7 @@ Mat vRecog::filter(Mat image, Mat &image4hist)//finished
         cvtColor(image, hsv, CV_BGR2HSV);//conversion to hsv
         inRange(hsv, Scalar(0,150,150), Scalar(95,255,255), threshed); //thresholding image
     }
-    //http://stackoverflow.com/questions/15007304/histogram-equalization-not-working-on-color-image-opencv
-    */
-    
-    //comment theses lines out if you uncomment the above chunk 
-    cvtColor(image, hsv, CV_BGR2HSV);//conversion to hsv
-    inRange(hsv, Scalar(0,150,150), Scalar(95,255,255), threshed); //thresholding image
-    //comment theses lines out if you uncomment
-    
-    //inRange(hsv, Scalar(0,0,210), Scalar(100,100,255), threshed); //thresholding image
+
     erode(threshed, eroded, getStructuringElement(0, Size(3,3)));//eroding and dilating image to
     dilate(eroded,dilated , getStructuringElement(0, Size(3,3)));//smooth image
     GaussianBlur(dilated, gaus, Size(3,3), 1.5, 1.5);//using gaussian filter to remove noise
